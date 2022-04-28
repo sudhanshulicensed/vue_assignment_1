@@ -7,24 +7,24 @@
       <form class="form" v-on:submit.prevent>
         <div class="firstName">
           <label for="fname">First Name</label>
-          <input v-model="finame" id="fname" type="text" placeholder="Enter your First Name">
+          <input v-model="finame" id="fname" type="text" placeholder="Enter your First Name" required>
         </div>
         <div class="lastNmae">
           <label for="lname">Last Name</label>
-          <input v-model="laname" id="lname" type="text" placeholder="Enter your Last Name">
+          <input v-model="laname" id="lname" type="text" placeholder="Enter your Last Name" required>
         </div>
         <div class="address">
           <label for="p-address">Address</label>
-          <input v-model="address" id="p-address" type="text" placeholder="Enter your Address">
+          <input v-model="address" id="p-address" type="text" placeholder="Enter your Address" required>
         </div>
         <div class="email">
           <label for="email">Email</label>
-          <input v-model="email" id="email" type="email" placeholder="Enter your Email">
-        </div>
-        <div class="button">
-          <button type="submit" @click="addData">Add</button>
+          <input v-model="email" id="email" type="email" placeholder="Enter your Email" required>
         </div>
       </form>
+      <div class="button">
+          <button type="submit" @click="addData">Add</button>
+        </div>
     </div>
     <div class="tables">
       <table>
@@ -33,12 +33,17 @@
         <td class="td2">{{ item.sname }}</td>
         <td class="td3">{{ item.address }}</td>
         <td class="td4">{{ item.eMail }}</td>
+        <td class="td5">
+          <div class="del-c">
+          <span class="del" @click="deleteRow">X</span>
+          <span class="tek" @click="colorChange">&#10003;</span>
+          </div>
+        </td>
       </tr>
       </table>
     </div>
   </div>
 </template>
-
 <script>
 
 export default {
@@ -55,6 +60,14 @@ export default {
 
   },
   methods: {
+
+    deleteRow(){
+      console.log("delete function working")
+    },
+
+    colorChange(){
+      console.log("color change function working")
+    },
     emailValidate() {
       let result = true
         for(let element of this.tabelData) {
@@ -112,17 +125,20 @@ body{
 }
 
 .inputs{
-  width: 100%;
+  display: flex;
+  flex-direction: row;
   min-height: 40px;
   margin: 10px auto;
 }
 
 form{
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 70px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
 label{
+  height: 30px;
+  margin-bottom: 10px;
   font-size: 1em;
   color: rgba(83, 92, 104,1.0);
 }
@@ -150,7 +166,7 @@ label{
 
 .button{
   box-sizing: border-box;
-  padding: 10px;
+  padding: 10px 0 10px 10px;
 }
 
 button{
@@ -180,8 +196,7 @@ table{
 tr{
   grid-column: 1fr;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 100px;
   width: 100%;
   height: auto;
 }
@@ -204,6 +219,21 @@ tr{
 .td4{
     grid-column-start: 4;
     grid-column-end: 5; 
+}
+
+.del-c{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    grid-column-start: 5;
+    grid-column-end: 6; 
+}
+
+.del, .tek{
+  box-sizing: border-box;
+  padding: 0 5px;
+  margin-left: 2px;
+  margin-right: 2px;
 }
 
 </style>
