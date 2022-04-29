@@ -3,6 +3,9 @@
     <div class="title">
       <p class="form-title">Customer Details</p>
     </div>
+    <div v-if="show" class="errorMessage">
+      <p class="msg">{{ err }}</p>
+    </div>
     <div class="inputs">
       <form class="form" v-on:submit.prevent>
         <div class="firstName">
@@ -56,10 +59,25 @@ export default {
       email: "",
       isRed: false,
       tabelData: [],
+      err: "",
+      show: false,
     }
 
   },
   methods: {
+
+    setShow() {
+      this.show = true;
+      setTimeout(() => {
+        this.show = false;
+      }, 5000)
+    },
+
+    isErr() {
+        this.err = "Email already Exists"
+        this.setShow();
+        // this.show = ;
+    },
 
     deleteRow(index){
       this.tabelData.splice(index);
@@ -72,18 +90,14 @@ export default {
       this.isRed = !this.isRed;
     },
 
-    // tabelCchange(index){
-    //   this.tabelData.colorChange(index);
-    // },
-
     emailValidate() {
       let result = true
         for(let element of this.tabelData) {
           console.log("Email Matches");
-
           if(element.eMail === this.email) {
+            this.isErr()
             result = false
-          } else{
+          } else {
             console.log("Email Doesn't Exist")
             result  = true
           }
@@ -250,4 +264,19 @@ tr{
   margin-right: 2px;
 }
 
+.errorMessage{
+  /* display: none; */
+  box-sizing: border-box;
+  padding-top: 8px;
+  width: 100%;
+  height: 50px;
+  background-color: aliceblue;
+}
+
+.msg{
+  text-align: center;
+  font-size: 2em;
+  color: red;
+  font-weight: 800;
+}
 </style>
