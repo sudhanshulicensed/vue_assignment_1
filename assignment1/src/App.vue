@@ -29,14 +29,14 @@
     <div class="tables">
       <table>
         <tr v-for="(item, index) in tabelData" :key="index">
-        <td class="td1">{{ item.fname }}</td>
-        <td class="td2">{{ item.sname }}</td>
-        <td class="td3">{{ item.address }}</td>
-        <td class="td4">{{ item.eMail }}</td>
+        <td class="td1" :class="{red: item.isActive}">{{ item.fname }}</td>
+        <td class="td2" :class="{red: item.isActive}">{{ item.sname }}</td>
+        <td class="td3" :class="{red: item.isActive}">{{ item.address }}</td>
+        <td class="td4" :class="{red: item.isActive}">{{ item.eMail }}</td>
         <td class="td5">
           <div class="del-c">
-          <span class="del" @click="deleteRow">X</span>
-          <span class="tek" @click="colorChange">&#10003;</span>
+          <span class="del" @click="deleteRow(index)">X</span>
+          <span class="tek" @click="colorChange(index)">&#10003;</span>
           </div>
         </td>
       </tr>
@@ -54,20 +54,28 @@ export default {
       laname: "",
       address: "",
       email: "",
-      add: false,
+      isRed: false,
       tabelData: [],
     }
 
   },
   methods: {
 
-    deleteRow(){
-      console.log("delete function working")
+    deleteRow(index){
+      this.tabelData.splice(index);
     },
 
-    colorChange(){
-      console.log("color change function working")
+    colorChange(index){
+      let isAc = this.tabelData[index].isActive;
+      this.tabelData[index].isActive = !isAc;
+      console.log("color change function working");
+      this.isRed = !this.isRed;
     },
+
+    // tabelCchange(index){
+    //   this.tabelData.colorChange(index);
+    // },
+
     emailValidate() {
       let result = true
         for(let element of this.tabelData) {
@@ -86,7 +94,7 @@ export default {
     addData(){
       console.log('72 called', this.emailValidate())
       if(this.finame && this.laname && this.address && this.email && this.emailValidate()) {
-      this.tabelData.push({fname: this.finame, sname: this.laname, address: this.address, eMail: this.email})
+      this.tabelData.push({fname: this.finame, sname: this.laname, address: this.address, eMail: this.email, isActive: false})
       }
       this.finame = "";
       this.laname = "";
@@ -107,11 +115,15 @@ body{
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  width: 80%;
+  width: 60%;
   min-height: 100vh;
   margin-left: auto;
   margin-right: auto;
   margin-top: 60px;
+}
+
+.red{
+  color: red;
 }
 
 .title{
@@ -139,7 +151,7 @@ form{
 label{
   height: 30px;
   margin-bottom: 10px;
-  font-size: 1em;
+  font-size: 22px;
   color: rgba(83, 92, 104,1.0);
 }
 
@@ -170,6 +182,7 @@ label{
 }
 
 button{
+  cursor: pointer;
   grid-column-start: 5;
   grid-column-end: 6;
   width: 50px;
@@ -184,7 +197,7 @@ button{
 }
 
 tr, td{
-  border: 1px solid black;
+  border: 1px solid rgba(45, 52, 54, 0.6);
   border-collapse: collapse;
 }
 
@@ -230,6 +243,7 @@ tr{
 }
 
 .del, .tek{
+  cursor: pointer;
   box-sizing: border-box;
   padding: 0 5px;
   margin-left: 2px;
